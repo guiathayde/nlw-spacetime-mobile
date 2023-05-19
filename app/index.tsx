@@ -1,26 +1,12 @@
 import { useEffect } from "react";
 import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
-import { StatusBar } from "expo-status-bar";
-import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
-import { styled } from "nativewind";
+import { Text, TouchableOpacity, View } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import { useRouter } from "expo-router";
 
-import {
-  useFonts,
-  Roboto_400Regular,
-  Roboto_700Bold,
-} from "@expo-google-fonts/roboto";
-
-import { BaiJamjuree_700Bold } from "@expo-google-fonts/bai-jamjuree";
-
 import { api } from "../src/lib/api";
 
-import blurBg from "../src/assets/bg-blur.png";
-import Stripes from "../src/assets/stripes.svg";
 import NLWLogo from "../src/assets/nlw-spacetime-logo.svg";
-
-const StyledStripes = styled(Stripes);
 
 const discovery = {
   authorizationEndpoint: "https://github.com/login/oauth/authorize",
@@ -31,11 +17,6 @@ const discovery = {
 
 export default function App() {
   const router = useRouter();
-  const [hasLoadedFonts] = useFonts({
-    Roboto_400Regular,
-    Roboto_700Bold,
-    BaiJamjuree_700Bold,
-  });
 
   const [, response, signInWithGitHub] = useAuthRequest(
     {
@@ -76,19 +57,8 @@ export default function App() {
     }
   }, [response]);
 
-  if (!hasLoadedFonts) return null;
-
   return (
-    <ImageBackground
-      className="relative flex-1 items-center bg-gray-900 px-8 py-12"
-      source={blurBg}
-      imageStyle={{
-        position: "absolute",
-        left: "-100%",
-      }}
-    >
-      <StyledStripes className="absolute left-2" />
-
+    <View className="flex-1 items-center px-8 py-10">
       <View className="flex-1 items-center justify-center gap-6">
         <NLWLogo />
 
@@ -115,8 +85,6 @@ export default function App() {
       <Text className="text-center font-body text-sm leading-relaxed text-gray-200">
         Feito com 💜 por guiathayde
       </Text>
-
-      <StatusBar style="light" translucent />
-    </ImageBackground>
+    </View>
   );
 }
